@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="ninja.luois.notinote">
+
+    <application
+        android:name="ninja.luois.notinote.Application"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme"
+        android:fullBackupContent="true"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity
+            android:name="ninja.luois.notinote.SettingsActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <service android:name="ninja.luois.notinote.NotificationService" />
+
+        <service android:name="ninja.luois.notinote.DeleteNoteService" />
+    </application>
+
+</manifest>
