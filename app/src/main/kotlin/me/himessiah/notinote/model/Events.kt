@@ -6,5 +6,4 @@ public class Events {
 
     public object HideNotification
 
-    public object PriorNotification
 }

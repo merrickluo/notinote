@@ -24,6 +24,7 @@ public class NotificationService : Service() {
 
     var notificationManager: NotificationManager by Delegates.notNull()
     var windowManager: WindowManager by Delegates.notNull()
+    var screenOnOffReceiver: ScreenOnOffReceiver by Delegates.notNull()
 
     public inner class LocalBinder : Binder() {
         fun getService(): NotificationService {
@@ -35,11 +36,11 @@ public class NotificationService : Service() {
         super.onCreate()
         notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        screenOnOffReceiver = ScreenOnOffReceiver()
+        registerReceiver(screenOnOffReceiver, IntentFilter("android.intent.action.USER_PRESENT"))
+        registerReceiver(screenOnOffReceiver, IntentFilter("android.intent.action.SCREEN_OFF"))
 
         EventBus.getDefault().register(this)
-
-        registerReceiver(ScreenOnOffReceiver(), IntentFilter("android.intent.action.USER_PRESENT"))
-        registerReceiver(ScreenOnOffReceiver(), IntentFilter("android.intent.action.SCREEN_OFF"))
         refreshNotification()
     }
 
@@ -53,6 +54,7 @@ public class NotificationService : Service() {
 
     override fun onDestroy() {
         notificationManager.cancel(id)
+        unregisterReceiver(screenOnOffReceiver)
         super.onDestroy()
     }
 
@@ -70,7 +72,10 @@ public class NotificationService : Service() {
                 var firstNote: String? = null
                 for (note in it) {
                     allNotesView.addView(R.id.note_list, createNoteItemView(note))
-                    firstNote = firstNote ?: note.content
+                    firstNote = firstNote ?: note.content +
+                            " (" +
+                            TextUtils.humanReadableDateText(note.added.getTime()) +
+                            " )"
                 }
 
                 allNotesView.setOnClickPendingIntent(R.id.add_note_button, newAddNoteIntent())
@@ -85,6 +90,7 @@ public class NotificationService : Service() {
     private fun createNoteItemView(note: Note): RemoteViews {
         val view = RemoteViews(getPackageName(), R.layout.note_item)
         view.setTextViewText(R.id.note_content, note.content)
+        view.setTextViewText(R.id.note_added, TextUtils.humanReadableDateText(note.added.getTime()))
 
         view.setOnClickPendingIntent(R.id.note_remove_button, newRemoveIntent(note))
         return view
@@ -130,18 +136,18 @@ public class NotificationService : Service() {
         refreshNotification(Notification.PRIORITY_MIN)
     }
 
-    public fun onEvent(event: Events.PriorNotification) {
-        refreshNotification(Notification.PRIORITY_HIGH)
-    }
-
     private class ScreenOnOffReceiver : BroadcastReceiver() {
 
         override fun onReceive(context: Context, intent: Intent) {
-            val keyguardManager = context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
-            if (keyguardManager.isKeyguardLocked()) {
+            if (intent.getAction().equals("android.intent.action.SCREEN_OFF")) {
                 EventBus.getDefault().post(Events.HideNotification)
             } else {
-                EventBus.getDefault().post(Events.UpdateNotification)
+                val keyguardManager = context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+                if (keyguardManager.isKeyguardLocked()) {
+                    EventBus.getDefault().post(Events.HideNotification)
+                } else {
+                    EventBus.getDefault().post(Events.UpdateNotification)
+                }
             }
         }
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="48dp"
     android:layout_marginTop="8dp"
     android:orientation="vertical">
 
@@ -9,26 +9,36 @@
         android:id="@+id/note_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:height="24dp"
+        android:layout_marginBottom="4dp"
         android:text="@string/add_new_note"
         android:textColor="@color/gray"
         android:textSize="15sp" />
 
+    <TextView
+        android:id="@+id/note_added"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/note_line"
+        android:layout_marginBottom="8dp"
+        android:textColor="@color/gray"
+        android:text="15:10"
+        android:textSize="12sp" />
+
     <ImageView
         android:id="@+id/note_remove_button"
-        android:layout_marginEnd="8dp"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_alignParentEnd="true"
-        android:layout_alignTop="@id/note_content"
-        android:src="@android:drawable/ic_menu_close_clear_cancel" />
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/clickable_background"
+        android:src="@drawable/ic_done_black_24dp" />
 
     <TextView
-        android:id="@+id/note_line"
+        android:id="@id/note_line"
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_below="@id/note_content"
+        android:layout_alignParentBottom="true"
         android:background="@color/gray" />
 
 </RelativeLayout>
