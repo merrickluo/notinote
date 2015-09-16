@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="8dp"
@@ -15,10 +15,20 @@
         android:textColor="@color/gray"
         android:textSize="15sp" />
 
+    <ImageView
+        android:id="@+id/note_remove_button"
+        android:layout_marginEnd="8dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@id/note_content"
+        android:src="@android:drawable/ic_menu_close_clear_cancel" />
+
     <TextView
         android:id="@+id/note_line"
         android:layout_width="match_parent"
         android:layout_height="1px"
+        android:layout_below="@id/note_content"
         android:background="@color/gray" />
 
-</LinearLayout>
+</RelativeLayout>

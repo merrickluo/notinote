@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">NotiNote</string>
     <string name="do_not_forget">别忘了: </string>
-    <string name="add_new_note">添加一条新Note</string>
+    <string name="add_new_note">点击添加一条新Note</string>
     <string name="add_note">添加Note</string>
 </resources>
