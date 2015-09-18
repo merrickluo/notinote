@@ -9,6 +9,7 @@
     <EditText
         android:id="@+id/note_content_edit_text"
         android:layout_width="300dp"
+        android:textColor="@android:color/black"
         android:layout_height="wrap_content"
         android:inputType="textMultiLine" />
 

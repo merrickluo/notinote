@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "me.himessiah.notinote"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -36,17 +36,19 @@ dependencies {
     compile 'com.android.support:support-v4:23.0.1'
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
+    compile 'com.android.support:appcompat-v7:23.0.1'
+    compile 'com.android.support:preference-v7:23.0.1'
     compile 'io.realm:realm-android:0.82.2'
     compile 'io.reactivex:rxandroid:1.0.1'
     compile 'de.greenrobot:eventbus:2.4.0'
-    compile 'io.reactivex:rxkotlin:0.22.12'
-    compile 'com.jakewharton.rxbinding:rxbinding-kotlin:0.2.0'
+    compile 'io.reactivex:rxkotlin:0.22.13'
+//    compile 'com.jakewharton.rxbinding:rxbinding-kotlin:0.2.1-SNAPSHOT'
     compile 'com.jakewharton:kotterknife:0.1.0-SNAPSHOT'
 
     kapt 'io.realm:realm-android:0.82.2'
 }
 buildscript {
-    ext.kotlin_version = '0.12.1230'
+    ext.kotlin_version = '0.13.1513'
 //    ext.kotlin_version = "0.1-SNAPSHOT"
     repositories {
         mavenCentral()

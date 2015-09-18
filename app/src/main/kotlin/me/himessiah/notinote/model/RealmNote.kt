@@ -5,10 +5,10 @@ import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmClass
 import java.util.Date
 
-RealmClass
+@RealmClass
 public open class RealmNote : RealmObject() {
 
-    PrimaryKey public open var id: Long = 0
+    @PrimaryKey public open var id: Long = 0
     public open var content: String = ""
     public open var added: Date = Date()
     public open var notify: Date = Date()

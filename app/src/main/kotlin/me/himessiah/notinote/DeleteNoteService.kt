@@ -13,10 +13,8 @@ public class DeleteNoteService(name: String) : IntentService(name) {
 
     override fun onHandleIntent(intent: Intent) {
         val id = intent.getLongExtra("id", -1)
-        Log.w("llllll", "id from intent is " + id)
         if (id != -1L) {
-            NotesManager.removeNote(id)
-                    .subscribe { EventBus.getDefault().post(Events.UpdateNotification) }
+            NotesManager.removeNote(id).subscribe()
         }
     }
 }

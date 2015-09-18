@@ -1,0 +1,19 @@
+<resources>
+
+    <!-- Strings related to Settings -->
+    <string name="service_setting">启动设置</string>
+    <string name="enable_service">启动服务</string>
+    <string name="enable_service_summary">启用服务以在通知栏显示Note</string>
+    <string name="start_at_boot">开机启动</string>
+    <string name="start_at_boot_summary">系统启动时自动开启服务</string>
+    <string name="priority">优先级</string>
+    <string name="priority_summary">控制Notes显示的位置</string>
+
+
+    <string-array name="notification_priority_list">
+        <item>高 (顶端, 有图标)</item>
+        <item>中 (中间, 有图标)</item>
+        <item>低 (下端, 无图标)</item>
+    </string-array>
+
+</resources>

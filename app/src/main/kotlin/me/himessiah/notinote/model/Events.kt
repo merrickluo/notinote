@@ -1,9 +1,9 @@
 package me.himessiah.notinote.model
 
-public class Events {
+public object Events {
 
-    public object UpdateNotification
-
-    public object HideNotification
+    public object StartService
+    public object StopService
+    public class UpdatePriority(val priority: String)
 
 }

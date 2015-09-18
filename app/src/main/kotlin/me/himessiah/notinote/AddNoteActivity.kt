@@ -1,15 +1,14 @@
 package me.himessiah.notinote
 
+//import com.jakewharton.rxbinding.view.clicks
+//import com.jakewharton.rxbinding.widget.textChanges
 import android.app.Activity
 import android.os.Bundle
-import android.util.Log
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.Button
 import android.widget.EditText
 import butterknife.bindView
-import com.jakewharton.rxbinding.view.clicks
-import com.jakewharton.rxbinding.widget.textChanges
-import de.greenrobot.event.EventBus
-import me.himessiah.notinote.model.Events
 import me.himessiah.notinote.model.NotesManager
 
 public class AddNoteActivity : Activity() {
@@ -25,19 +24,30 @@ public class AddNoteActivity : Activity() {
 
         setupWindow()
 
-        noteEditText.requestFocus()
+        noteEditText.addTextChangedListener(object : TextWatcher {
 
-        noteEditText.textChanges().subscribe { text ->
-            newNoteContent = text.toString()
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                newNoteContent = s.toString()
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+
+        })
+
+        addNoteButton.setOnClickListener {
+            if (newNoteContent.isNotEmpty()) {
+                NotesManager.addNote(newNoteContent)
+                        .subscribe {
+                            finish()
+                        }
+            }
         }
-
-        addNoteButton.clicks()
-                .filter { newNoteContent.isNotEmpty() }
-                .flatMap { NotesManager.addNote(newNoteContent) }
-                .subscribe {
-                    EventBus.getDefault().post(Events.UpdateNotification)
-                    finish()
-                }
     }
 
     private fun setupWindow() {

@@ -1,6 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">NotiNote</string>
-    <string name="do_not_forget">别忘了: </string>
-    <string name="add_new_note">点击添加一条新Note</string>
-    <string name="add_note">添加Note</string>
+    <string name="add_new_note">Click to add a new note</string>
+    <string name="add_note">Add note</string>
+    <string name="do_not_forget">Don\'t Forget to:</string>
+    <string name="max_note_hint">There is no space for more notes</string>
+    <string name="notification_priority">Notification Priority</string>
+
+    <string name="setting_title">NotiNote Setting</string>
+
 </resources>

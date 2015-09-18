@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">NotiNote</string>
+    <string name="setting_title">NotiNote 设置</string>
+    <string name="do_not_forget">别忘了: </string>
+    <string name="add_new_note">点击添加一条新 Note</string>
+    <string name="add_note">添加 Note</string>
+    <string name="notification_priority">通知优先级</string>
+    <string name="max_note_hint">最多显示4条 Note</string>
+</resources>

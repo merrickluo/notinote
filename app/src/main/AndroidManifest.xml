@@ -3,31 +3,36 @@
     package="me.himessiah.notinote">
 
     <application
-        android:fullBackupContent="true"
         android:name=".Application"
         android:allowBackup="true"
+        android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
 
         <activity
             android:name=".SettingsActivity"
-            android:label="@string/app_name">
+            android:label="@string/setting_title">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".AddNoteActivity"
+        <activity
+            android:name=".AddNoteActivity"
             android:excludeFromRecents="true"
             android:theme="@style/Theme.AppCompat.Dialog"
-            android:windowSoftInputMode="stateAlwaysVisible"
-            />
+            android:windowSoftInputMode="stateAlwaysVisible" />
 
         <service android:name=".NotificationService" />
         <service android:name=".DeleteNoteService" />
 
+        <receiver android:name=".model.BootBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
 
     </application>
 
