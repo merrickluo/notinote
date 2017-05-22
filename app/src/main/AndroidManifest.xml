@@ -21,8 +21,7 @@
         </activity>
 
         <service android:name="ninja.luois.notinote.NotificationService" />
-
-        <service android:name="ninja.luois.notinote.DeleteNoteService" />
+        <service android:name="ninja.luois.notinote.NoteService" />
     </application>
 
 </manifest>

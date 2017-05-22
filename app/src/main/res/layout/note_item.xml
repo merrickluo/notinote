@@ -2,23 +2,34 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="8dp"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/note_content"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:height="24dp"
-        android:text="@string/add_new_note"
-        android:textColor="@color/gray"
-        android:textSize="15sp" />
+        android:layout_height="48dp">
 
-    <TextView
-        android:id="@+id/note_line"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/gray" />
+        <TextView
+            android:layout_toStartOf="@+id/note_done"
+            android:id="@+id/note_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_centerVertical="true"
+            android:text="@string/add_new_note"
+            android:textColor="@color/gray"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/note_done"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:text="@string/done"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="?android:attr/borderlessButtonStyle"
+            />
+
+    </RelativeLayout>
+
 
 </LinearLayout>

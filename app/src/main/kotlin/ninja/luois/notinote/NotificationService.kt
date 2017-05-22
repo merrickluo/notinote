@@ -1,17 +1,16 @@
 package ninja.luois.notinote
 
-import android.app.Notification
-import android.app.NotificationManager
-import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
 import android.widget.RemoteViews
 import io.reactivex.android.schedulers.AndroidSchedulers
-import ninja.luois.notinote.model.Note
-import ninja.luois.notinote.model.NotesManager
 import kotlin.properties.Delegates
+import android.app.*
+import android.graphics.drawable.Icon
+import java.util.*
+
 
 class NotificationService : Service() {
 
@@ -52,35 +51,59 @@ class NotificationService : Service() {
 
         NotesManager(context).allNotes().observeOn(AndroidSchedulers.mainThread()).subscribe {
             val allNotesView = RemoteViews(packageName, R.layout.note_list_layout)
-            var firstNote: String? = null
-            for (note in it) {
-                allNotesView.addView(R.id.note_list, createNoteItemView(note))
-                firstNote = firstNote ?: note.content
+
+            if (it.isEmpty()) {
+                val emptyNoteView = RemoteViews(packageName, R.layout.note_item)
+                emptyNoteView.setTextViewText(R.id.note_content, getString(R.string.add_new_note))
+                allNotesView.addView(R.id.note_list, emptyNoteView)
+            } else {
+                it.forEach { note ->
+                    allNotesView.addView(R.id.note_list, createNoteItemView(note))
+                }
             }
-            showNotification(allNotesView, firstNote)
+            showNotification(allNotesView)
         }
     }
 
     fun createNoteItemView(note: Note): RemoteViews {
         val view = RemoteViews(packageName, R.layout.note_item)
         view.setTextViewText(R.id.note_content, note.content)
-
+        view.setOnClickPendingIntent(R.id.note_done, newDeleteIntent(note))
         return view
     }
 
-    fun showNotification(bigView: RemoteViews, firstNote: String?) {
-        val first = firstNote ?: getString(R.string.add_new_note)
+    private fun newAddIntent(): PendingIntent {
+        val i = Intent(context, NoteService::class.java)
+        i.putExtra("action", "add")
+        val requestCode = Random(System.currentTimeMillis()).nextInt()
+        return PendingIntent.getService(context, requestCode, i, 0)
+    }
 
+    private fun newDeleteIntent(note: Note): PendingIntent {
+        val i = Intent(context, NoteService::class.java)
+        i.putExtra("action", "delete")
+        i.putExtra("noteId", note.id)
+        val requestCode = Random(System.currentTimeMillis()).nextInt()
+        return PendingIntent.getService(context, requestCode, i, 0)
+    }
+
+    fun showNotification(bigView: RemoteViews) {
+        val remoteInput = RemoteInput.Builder("add note").setLabel("Add Note").build()
+        val icon = Icon.createWithResource(context, android.R.drawable.ic_input_add)
+        val action = Notification.Action.Builder(icon, "Add Note", newAddIntent())
+                .addRemoteInput(remoteInput)
+                .build()
         val defaultNotification: Notification =
                 Notification.Builder(context)
                         .setOngoing(true)
                         .setSmallIcon(R.mipmap.ic_launcher)
-                        .setContentTitle(getString(R.string.do_not_forget))
-                        .setContentText(firstNote)
+                        .setCustomContentView(bigView)
+                        //.setCustomBigContentView(bigView)
+                        .setStyle(Notification.DecoratedCustomViewStyle())
+                        .setGroup("233")
                         .setPriority(Notification.PRIORITY_HIGH)
+                        .addAction(action)
                         .build()
-
-        defaultNotification.bigContentView = bigView
 
         notificationManager.notify(id, defaultNotification)
 

@@ -1,25 +1,27 @@
-package ninja.luois.notinote.model
+package ninja.luois.notinote
 
 import io.realm.Realm
-import java.util.Date
+import java.util.*
 
 class Note {
 
+    var id: String = ""
     var content: String = ""
     var added: Date = Date()
     var notify: Date = Date()
-
 
     constructor(str: String) {
         content = str
         added = Date()
         notify = Date()
+        id = UUID.randomUUID().toString()
     }
 
     constructor(dbNote: RealmNote) {
         content = dbNote.content
         added = dbNote.added
         notify = dbNote.notify
+        id = dbNote.id
     }
 
     fun save() {
@@ -30,6 +32,7 @@ class Note {
         dbNote.content = content
         dbNote.added = added
         dbNote.notify = notify
+        dbNote.id = id
         realm.commitTransaction()
     }
 
